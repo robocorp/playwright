@@ -158,18 +158,22 @@ export const Recorder: React.FC<RecorderProps> = ({
 
 function renderSourceOptions(sources: Source[]): React.ReactNode {
   const transformTitle = (title: string): string => title.replace(/.*[/\\]([^/\\]+)/, '$1');
-  const renderOption = (source: Source): React.ReactNode => (
-    <option key={source.id} value={source.id}>{transformTitle(source.label)}</option>
-  );
+  const renderOption = (source: Source): React.ReactNode => {
+    if (source.id !== 'robocorp')
+      return null;
+    return <option key={source.id} value={source.id}>{transformTitle(source.label)}</option>;
+  };
 
   const hasGroup = sources.some(s => s.group);
   if (hasGroup) {
     const groups = new Set(sources.map(s => s.group));
-    return [...groups].filter(Boolean).map(group => (
-      <optgroup label={group} key={group}>
+    return [...groups].filter(Boolean).map(group => {
+      if (group !== 'Python')
+        return null;
+      return <optgroup label={group} key={group}>
         {sources.filter(s => s.group === group).map(source => renderOption(source))}
-      </optgroup>
-    ));
+      </optgroup>;
+    });
   }
 
   return sources.map(source => renderOption(source));

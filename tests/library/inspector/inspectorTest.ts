@@ -42,6 +42,7 @@ const codegenLang2Id: Map<string, string> = new Map([
   ['C# NUnit', 'csharp-nunit'],
   ['C# MSTest', 'csharp-mstest'],
   ['Playwright Test', 'playwright-test'],
+  ['Robocorp Python', 'robocorp']
 ]);
 const codegenLangId2lang = new Map([...codegenLang2Id.entries()].map(([lang, langId]) => [langId, lang]));
 
@@ -173,7 +174,7 @@ class Recorder {
     return new Promise(f => callback = f);
   }
 
-  async hoverOverElement(selector: string, options?: { position?: { x: number, y: number }}): Promise<string> {
+  async hoverOverElement(selector: string, options?: { position?: { x: number, y: number } }): Promise<string> {
     return this.waitForHighlight(async () => {
       const box = await this.page.locator(selector).first().boundingBox();
       const offset = options?.position || { x: box.width / 2, y: box.height / 2 };

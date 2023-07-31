@@ -63,7 +63,7 @@ Examples:
 commandWithOpenOptions('codegen [url]', 'open page and generate code for user actions',
     [
       ['-o, --output <file name>', 'saves the generated script to a file'],
-      ['--target <language>', `language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java`, codegenId()],
+      ['--target <language>', `language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java, robocorp`, codegenId()],
       ['--save-trace <filename>', 'record a trace for the session and save it to a file'],
       ['--test-id-attribute <attributeName>', 'use the specified attribute to generate data test ID selectors'],
     ]).action(function(url, options) {
@@ -496,7 +496,7 @@ async function launchContext(options: Options, headless: boolean, executablePath
   }
 
   context.on('page', page => {
-    page.on('dialog', () => {});  // Prevent dialogs from being automatically dismissed.
+    page.on('dialog', () => { });  // Prevent dialogs from being automatically dismissed.
     page.on('close', () => {
       const hasPage = browser.contexts().some(context => context.pages().length > 0);
       if (hasPage)

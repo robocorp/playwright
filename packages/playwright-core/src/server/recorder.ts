@@ -45,6 +45,7 @@ import type { Language, LanguageGenerator } from './recorder/language';
 import { locatorOrSelectorAsSelector } from '../utils/isomorphic/locatorParser';
 import { eventsHelper, type RegisteredListener } from './../utils/eventsHelper';
 import type { Dialog } from './dialog';
+import { RobocorpLanguageGenerator } from './recorder/robocorp';
 
 type BindingSource = { frame: Frame, page: Page };
 
@@ -71,7 +72,7 @@ export class Recorder implements InstrumentationListener {
   }
 
   static showInspector(context: BrowserContext) {
-    Recorder.show(context, {}).catch(() => {});
+    Recorder.show(context, {}).catch(() => { });
   }
 
   static show(context: BrowserContext, params: channels.BrowserContextRecorderSupplementEnableParams = {}): Promise<Recorder> {
@@ -149,7 +150,7 @@ export class Recorder implements InstrumentationListener {
     this._context.once(BrowserContext.Events.Close, () => {
       this._contextRecorder.dispose();
       this._context.instrumentation.removeListener(this);
-      recorderApp.close().catch(() => {});
+      recorderApp.close().catch(() => { });
     });
     this._contextRecorder.on(ContextRecorder.Events.Change, (data: { sources: Source[], primaryFileName: string }) => {
       this._recorderSources = data.sources;
@@ -218,7 +219,7 @@ export class Recorder implements InstrumentationListener {
     this._contextRecorder.setEnabled(this._mode === 'recording');
     this._debugger.setMuted(this._mode === 'recording');
     if (this._mode !== 'none' && this._context.pages().length === 1)
-      this._context.pages()[0].bringToFront().catch(() => {});
+      this._context.pages()[0].bringToFront().catch(() => { });
     this._refreshOverlay();
   }
 
@@ -242,7 +243,7 @@ export class Recorder implements InstrumentationListener {
 
   private _refreshOverlay() {
     for (const page of this._context.pages())
-      page.mainFrame().evaluateExpression('window.__pw_refreshOverlay()').catch(() => {});
+      page.mainFrame().evaluateExpression('window.__pw_refreshOverlay()').catch(() => { });
   }
 
   async onBeforeCall(sdkObject: SdkObject, metadata: CallMetadata) {
@@ -255,7 +256,7 @@ export class Recorder implements InstrumentationListener {
       this.hideHighlightedSelecor();
     } else if (metadata.params && metadata.params.selector) {
       this._highlightedSelector = metadata.params.selector;
-      this._recorderApp?.setSelector(this._highlightedSelector).catch(() => {});
+      this._recorderApp?.setSelector(this._highlightedSelector).catch(() => { });
     }
   }
 
@@ -404,6 +405,7 @@ class ContextRecorder extends EventEmitter {
       new PythonLanguageGenerator(/* isAsync */false, /* isPytest */true),
       new PythonLanguageGenerator(/* isAsync */false, /* isPytest */false),
       new PythonLanguageGenerator(/* isAsync */true,  /* isPytest */false),
+      new RobocorpLanguageGenerator(),
       new CSharpLanguageGenerator('mstest'),
       new CSharpLanguageGenerator('nunit'),
       new CSharpLanguageGenerator('library'),
