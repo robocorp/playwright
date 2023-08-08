@@ -179,7 +179,6 @@ def init_browser(): {
     browser.configure( {
         screenshot="only-on-failure",
         headless=True,
-        slowmo=100,
     }
     )
 }
