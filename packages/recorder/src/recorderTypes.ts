@@ -29,7 +29,7 @@ export type UIState = {
   mode: Mode;
   actionPoint?: Point;
   actionSelector?: string;
-  language: 'javascript' | 'python' | 'java' | 'csharp' | 'jsonl';
+  language: 'javascript' | 'python' | 'java' | 'csharp' | 'jsonl' | 'robocorp';
   testIdAttributeName: string;
 };
 
